@@ -1,0 +1,37 @@
+    function rescaleCustomMap() {
+        var $Image = $(".test img");
+        var $maps = $("#Mymap");
+        var $areamaps = $("#Mymap area");
+        if ($areamaps.length == 0) {
+            return;
+        }
+        var Width = $Image.width();
+        var OriginalWidth = $Image.prop("naturalWidth");
+        var scaleFactor = Width / OriginalWidth;
+        if (scaleUse === 1) {
+            return;
+        }
+        $maps.empty();
+        $areamaps.each(function (areaIndex, area) {
+            var $area = $(area);
+            var orginalCoords = $area.attr("data-orginalCoords");
+            if (!orginalCoords) {
+                var coords = $area.prop('coords');
+                $area.attr("data-orginalCoords", coords);
+                orginalCoords = $area.prop('coords');
+            }
+            var currentCoords = orginalCoords.split(',');
+            var newCoords = [];
+            currentCoords.forEach(function (value) {
+                newCoords.push(Math.round(Number(value) * scaleFactor));
+            });
+            $area.attr("coords", newCoords.join(","));
+            $maps.append($area);
+        });
+    }
+	
+	$window.on('load resize', function () {
+
+                rescaleCustomMap();
+
+        });
