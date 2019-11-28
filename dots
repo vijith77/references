@@ -1,0 +1,13 @@
+		if (($(window).width() > 1440)) {
+		$("#maincontainer .itemTxt").each(function () {
+			let $ellipsisText = $(this);
+			let titleTag = $ellipsisText.text();
+			$ellipsisText.attr("title", titleTag);
+			while ($ellipsisText.outerHeight(true) > 40) {
+				$ellipsisText.text(function (index, text) {					
+					return text.replace(/\W*\s(\S)*$/, '...');
+				});
+			}
+		});
+
+		}
